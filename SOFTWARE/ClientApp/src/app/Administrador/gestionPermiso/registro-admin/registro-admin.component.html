@@ -1,0 +1,119 @@
+<div class="container">
+<mat-card>
+
+   <div class="container rounded bg-white mt-5 mb-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-xl-10">
+        <div class="card rounded-3 text-black">
+          <div class="row g-0">
+            <div class="col-lg-6">
+              <div class="card-body p-md-6 mx-md-5">
+
+
+                <div class="row justify-content-md-center">
+
+                  <div class="container">
+
+                    <div class="text-center">
+                      <img
+                        src="https://cdn-icons-png.flaticon.com/512/306/306232.png"
+                        style="width: 185px;" alt="logo">
+                      <h4 class="mt-1 mb-5 pb-1"> </h4>
+                    </div>
+
+                    <div class="row">
+
+                      <div class="col-6">
+                        <mat-form-field style="width: 275px; text-align: center;">
+                          <mat-label>Digite su usuario</mat-label>
+                          <input matInput [(ngModel)]="register.userName">
+                        </mat-form-field>
+                      </div>
+
+                    </div>
+
+                    <div class="row">
+
+                      <mat-form-field>
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="register.password">
+                      </mat-form-field>
+
+                      <mat-form-field>
+                        <mat-label>Email</mat-label>
+                        <input matInput [(ngModel)]="register.email">
+                      </mat-form-field>
+
+                    </div>
+
+                    <div class="row">
+                      <mat-form-field>
+                        <mat-label>Teléfono</mat-label>
+                        <input matInput [(ngModel)]="register.telefono" type="text" pattern="^[1-9]\d*$">
+                      </mat-form-field>
+
+                      <mat-form-field>
+                        <mat-label>Identificación</mat-label>
+                        <input matInput [(ngModel)]="register.identificacion" type="text" pattern="^[1-9]\d*$">
+                      </mat-form-field>
+
+                    </div>
+
+                    <div class="row">
+
+                      <mat-form-field>
+                        <mat-label>Nombre</mat-label>
+                        <input matInput [(ngModel)]="register.nombre">
+                      </mat-form-field>
+
+                      <mat-form-field>
+                        <mat-label>Apellido</mat-label>
+                        <input matInput [(ngModel)]="register.apellido">
+                      </mat-form-field>
+
+                    </div>
+
+                  </div>
+
+                  <div class="row text-center" style="margin-right: 10px;">
+                      <mat-form-field style="width: 300px;">
+                        <mat-label>Seleccione el Rol</mat-label>
+                        <mat-select [(ngModel)]="operacion">
+                          <mat-option value="1">Contratista</mat-option>
+                          <mat-option value="2">Administrador</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                  </div>
+
+              </div>
+
+                <div class="text-center">
+                  <div class="container" style="margin-top: 20px;">
+
+                      <div class="text-center pt-1 mb-5 pb-2">
+                        <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" (click)="registrar()">Registrar</button>
+                      </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+              <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                <h4 class="mb-4"></h4>
+                <p class="small mb-0">
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</mat-card>
+</div>

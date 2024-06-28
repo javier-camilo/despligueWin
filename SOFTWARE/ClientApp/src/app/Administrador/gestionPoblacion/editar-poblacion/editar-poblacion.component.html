@@ -1,0 +1,31 @@
+<div class="container">
+<mat-card class="contact-card">
+
+
+  <div class="contenedor">
+
+    <h1>Edición de población</h1>
+
+
+    <mat-form-field>
+      <input matInput [(ngModel)]="poblacion.nombre" type="text" descripción="Ingrese el nombre">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput [(ngModel)]="poblacion.prioridad" type="number" descripción="Ingrese la prioridad">
+    </mat-form-field>
+
+    <div>
+
+    <button mat-raised-button color="primary" style="margin-right: 20px;" (click)="confirmar('1')">Editar</button>
+
+    <button mat-raised-button color="primary" (click)="confirmar('2')">Eliminar</button>
+
+
+
+    </div>
+
+  </div>
+
+</mat-card>
+</div>

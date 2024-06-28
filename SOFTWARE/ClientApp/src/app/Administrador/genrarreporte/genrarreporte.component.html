@@ -1,0 +1,86 @@
+<div class="grid-container">
+<mat-grid-list cols="10" rowHeight="250px">
+
+  <mat-grid-tile [colspan]="6" [rowspan]="1">
+
+    <mat-card class="dashboard-card">
+
+      <mat-card-header>
+
+        <mat-card-title>
+          Numero atención
+        </mat-card-title>
+
+      </mat-card-header>
+
+      <mat-card-content class="dashboard-card-content">
+
+        <ngx-charts-pie-grid [view]="view"
+        [scheme]="colorScheme"
+        [results]="single"
+        (select)="onSelect($event)">
+        </ngx-charts-pie-grid>
+
+      </mat-card-content>
+
+    </mat-card>
+
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="4" [rowspan]="3">
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>
+          Distribución de atención
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+
+        <ngx-charts-bar-vertical [view]="view"
+        [scheme]="colorScheme" [results]="single"
+        [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          (select)="onSelect($event)">
+        </ngx-charts-bar-vertical>
+
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="6" [rowspan]="2">
+
+    <mat-card class="dashboard-card">
+
+      <mat-card-header>
+        <mat-card-title>
+          Porcentajes
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content class="dashboard-card-content">
+        <ngx-charts-pie-chart
+        [view]="viewCircle"
+        [scheme]="colorScheme"
+        [results]="single" [gradient]="gradient"
+          [legend]="showLegend"
+          [legendPosition]="legendPosition"
+          [labels]="showLabels"
+          [doughnut]="isDoughnut"
+          (select)="onSelect($event)"
+          (activate)="onActivate($event)"
+          (deactivate)="onDeactivate($event)">
+        </ngx-charts-pie-chart>
+
+      </mat-card-content>
+
+    </mat-card>
+  </mat-grid-tile>
+
+</mat-grid-list>
+</div>

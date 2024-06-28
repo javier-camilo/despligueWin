@@ -1,0 +1,25 @@
+<div class="container">
+<mat-card class="contact-card">
+
+  <div class="contenedor">
+
+    <h1>Registro de población</h1>
+
+    <mat-form-field>
+      <input matInput [(ngModel)]="poblacion.nombre" type="text" placeholder="Ingrese el nombre de la poblacion">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput [(ngModel)]="poblacion.prioridad" placeholder="Ingrese la valoracion" type="number">
+    </mat-form-field>
+
+    <div>
+
+      <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+
+    </div>
+
+  </div>
+
+</mat-card>
+</div>

@@ -1,0 +1,66 @@
+<div class="container">
+<mat-card>
+  <div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+
+      <div class="col-sm-8 border-center">
+
+            <div class="row mt-3" style="margin-bottom: 50px;">
+              <div class="col-md-6"><label class="labels">Digite la identificación</label><input class="form-control"
+                [(ngModel)]="identificacion"></div>
+              <div class="col-md-6" style="margin-top: 20px;"><button mat-raised-button color="primary" (click)="buscar()">buscar</button>
+              </div>
+            </div>
+
+            <span></span>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4 class="text-right">Datos del Usuario</h4>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-md-6"><label class="labels">Identificación</label><input type="text" class="form-control"
+                [(ngModel)]="datosUsuario.identificacion"disabled></div>
+              <div class="col-md-6"><label class="labels">Nombre Completo</label><input type="text" class="form-control"
+                 [(ngModel)]="datosUsuario.nombre" disabled></div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-md-12"><label class="labels">Apellidos</label><input class="form-control"
+                 [(ngModel)]="datosUsuario.apellido" disabled></div>
+
+              <div class="col-md-12"><label class="labels">Usuario</label><input type="text" class="form-control"
+                [(ngModel)]="datosUsuario.userName" disabled></div>
+            </div>
+
+            <div class="row mt-3" *ngIf="SeEncontro">
+
+
+              <mat-form-field>
+
+                  <mat-label>seleccione el Rol</mat-label>
+                  <mat-select [(ngModel)]="operacion">
+                    <mat-option value="1">contratista</mat-option>
+                    <mat-option value="2">Administrador</mat-option>
+                  </mat-select>
+
+              </mat-form-field>
+
+              <div class="col-md-6" style="margin-top: 20px;"><button mat-raised-button color="primary"
+                  (click)="confirmacion(operacion)" style="min-width: 150px;">Asignar rol</button></div>
+              <div class="col-md-6" style="margin-top: 20px;"><button mat-raised-button
+                  (click)="confirmacionEliminacion(operacion)" style="min-width: 150px;">Eliminar rol</button></div>
+
+
+            </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+
+
+</mat-card>
+</div>

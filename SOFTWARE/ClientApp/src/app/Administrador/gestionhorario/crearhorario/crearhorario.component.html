@@ -1,0 +1,130 @@
+<div class="container">
+  <mat-card class="contact-card">
+
+    <mat-stepper [linear]="isLinear" #stepper>
+
+
+      <mat-step [stepControl]="firstFormGroup">
+
+        <ng-template matStepLabel>Registro de Horario</ng-template>
+
+        <form [formGroup]="firstFormGroup">
+
+          <div class="card rounded-3 text-black">
+
+            <div class="container">
+
+              <div class="row justify-content-md-center">
+
+                <div class="col-md-5 border-right">
+
+
+                  <div class="row justify-content-md-center">
+
+
+                    <div class="container">
+
+                      <div class="row mt-3">
+
+                        <div class="text-center">
+                          <img
+                            src="https://colaboracion.dnp.gov.co/CDT/PublishingImages/La_Entidad/Directivos/Direccciones/Desarrollo-Social/logo_sisben.png"
+                            style="width: 185px;" alt="logo">
+                          <h4 class="mt-1 mb-5 pb-1"> </h4>
+                        </div>
+
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="fill" style="width: 200px; margin-bottom: 20px;">
+                              <mat-label>Fecha inicio</mat-label>
+                              <input matInput [matDatepicker]="pickerInicio" formControlName="fechaInicio"
+                                [min]="minDate">
+                              <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+                              <mat-datepicker #pickerInicio></mat-datepicker>
+                              <mat-error *ngIf="this.firstFormGroup.controls['fechaInicio'].hasError('required')">
+                                Es necesario que seleccione la fecha de los horarios
+                              </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field>
+                              <mat-label>intervalo en minutos</mat-label>
+                              <input matInput formControlName="intervaloAtencion">
+                              <mat-error *ngIf="this.firstFormGroup.controls['intervaloAtencion'].hasError('required')">
+                                debe digitar el intervalo
+                              </mat-error>
+                              <mat-error *ngIf="this.firstFormGroup.controls['intervaloAtencion'].hasError('pattern')">
+                                Solo se permiten números
+                              </mat-error>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                          <mat-form-field appearance="fill" style="width: 200px; margin-bottom: 20px;">
+                            <mat-label>Fecha finalizacion</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="fechaFin"
+                              [min]="minDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="this.firstFormGroup.controls['fechaFin'].hasError('required')">
+                              Es necesario que seleccione la fecha de fin
+                            </mat-error>
+                          </mat-form-field>
+
+                          <mat-form-field>
+                            <mat-label>maximo de turnos</mat-label>
+                            <input matInput formControlName="numeroMaximoTurnos">
+                            <mat-error *ngIf="this.firstFormGroup.controls['numeroMaximoTurnos'].hasError('required')">
+                              Es necesario que coloque el maximo de turnos
+                            </mat-error>
+                            <mat-error *ngIf="this.firstFormGroup.controls['numeroMaximoTurnos'].hasError('pattern')">
+                              Solo se permiten números
+                            </mat-error>
+                          </mat-form-field>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+
+                  <div class="text-center">
+
+
+                    <div class="container" style="margin-top: 20px;">
+
+                      <div class="text-center pt-1 mb-5 pb-2">
+                        <button mat-raised-button type="button" (click)="registrarDatos()"  color="primary">registrar</button>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+      </mat-step>
+
+
+    </mat-stepper>
+
+
+  </mat-card>
+</div>

@@ -1,0 +1,10 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/7a2cc83e-a4b2-4d26-878d-3bf5b545273b/resourceGroups/Apis/providers/Microsoft.Web/sites/CitasDB",
+    "appService.deploySubpath": "bin\\Publish",
+    "cSpell.words": [
+        "digitar",
+        "sisbén",
+        "valledupar"
+    ],
+    "cSpell.language": "en"
+}

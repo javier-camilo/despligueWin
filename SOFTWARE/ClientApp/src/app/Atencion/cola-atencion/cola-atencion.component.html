@@ -1,0 +1,50 @@
+
+<div class="container">
+<mat-card class="contact-card">
+  <div class="contenedor">
+    <mat-form-field>
+      <mat-label>Filtrar por:</mat-label>
+      <input matInput (keyup)="filtrar($event)" descripción="Nombre o descripcion">
+    </mat-form-field>
+  </div>
+</mat-card>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="numero">
+    <th mat-header-cell *matHeaderCellDef> Numero </th>
+    <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="motivo">
+    <th mat-header-cell *matHeaderCellDef> Motivo </th>
+    <td mat-cell *matCellDef="let element"> {{element.motivo}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="atencion">
+    <th mat-header-cell *matHeaderCellDef> Atención </th>
+    <td mat-cell *matCellDef="let element"> {{element.asistencia}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Descripcion Operacion">
+    <th mat-header-cell *matHeaderCellDef> Descripción operación</th>
+    <td mat-cell *matCellDef="let element"> {{element.descripcionOperacion}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Horario">
+    <th mat-header-cell *matHeaderCellDef>Horario</th>
+    <td mat-cell *matCellDef="let element">{{ element.tiempo.horaInicio | date: 'shortTime' }} -
+      {{ element.tiempo.horaFinalizacion | date: 'shortTime' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="editar">
+    <th mat-header-cell *matHeaderCellDef> ver </th>
+    <td mat-cell *matCellDef="let element; let i = index"> <a routerLink='/registrarAtencion/{{element.numero}}' *ngIf="i==0">ver</a> </td>
+  </ng-container>
+
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+</div>

@@ -1,0 +1,114 @@
+<div class="container">
+<mat-card class="contact-card">
+
+  <mat-stepper [linear]="isLinear" #stepper>
+
+    <mat-step [stepControl]="firstFormGroup">
+
+      <ng-template matStepLabel>Registro de datos</ng-template>
+
+      <form [formGroup]="firstFormGroup">
+
+
+        <div class="container">
+
+          <div class="row justify-content-md-center">
+
+            <div class="col col-lg-2" style="margin-right: 30px;">
+
+              <mat-form-field>
+                <mat-label>Seleccione el motivo</mat-label>
+                <mat-select formControlName="motivo">
+
+                  <mat-option *ngFor="let nav of motivos" [value]="nav.nombre"
+                    (click)="cargarDescripcion(nav.descripcion)">{{nav.nombre}}</mat-option>
+
+                </mat-select>
+                <mat-hint>descripción: {{desripcionMotivo}}</mat-hint>
+                <mat-error *ngIf="this.firstFormGroup.controls['motivo'].hasError('required')">
+                  Es necesario que seleccione el motivo
+                </mat-error>
+              </mat-form-field>
+
+                <div class="col col-lg-2" style="margin-right: 30px;">
+                  <mat-form-field appearance="fill" style="width: 200px;">
+                    <mat-label>seleccione la fecha</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="selectedDate"
+                    (dateChange)="onDateChange($event)" [min]="minDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="this.firstFormGroup.controls['selectedDate'].hasError('required')">
+                      Es necesario que seleccione la fecha de los horarios
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+            </div>
+
+
+
+            <div class="col-md-auto">
+
+            </div>
+
+            <div class="col col-lg-2">
+              <mat-form-field>
+                <mat-label>Seleccione el la población</mat-label>
+                <mat-select formControlName="poblacion">
+
+                  <mat-option *ngFor="let nav of poblaciones" [value]="nav.nombre">{{nav.nombre}}</mat-option>
+
+                </mat-select>
+
+                <mat-error *ngIf="this.firstFormGroup.controls['poblacion'].hasError('required')">
+                  Es necesario que seleccione la población
+                </mat-error>
+
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Seleccione el horario</mat-label>
+                <mat-select formControlName="horario">
+
+                  <mat-option *ngFor="let nav of filteredHorarios" [value]="nav.refHorario">{{ nav.horaInicio | date: 'shortTime' }} -
+                    {{ nav.horaFinalizacion | date: 'shortTime' }}</mat-option>
+
+                </mat-select>
+                <mat-error *ngIf="this.firstFormGroup.controls['horario'].hasError('required')">
+                  Es necesario que seleccione el horario para continuar
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div>
+          <button mat-button matStepperNext>siguiente</button>
+        </div>
+      </form>
+
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>terminado</ng-template>
+
+      <div style="margin: 20px;">
+        <p>Datos obtenidos, si no requiere hacer algún cambio puede registrar el turno</p>
+      </div>
+
+      <div>
+        <button mat-button matStepperPrevious>regresar</button>
+        <button mat-button (click)="registrar()">registrar</button>
+      </div>
+    </mat-step>
+
+
+  </mat-stepper>
+
+  <h1></h1>
+
+</mat-card>
+
+

@@ -1,0 +1,182 @@
+
+<div class="container">
+<mat-card class="contact-card">
+
+
+  <mat-tab-group *ngIf="turno!=null">
+
+    <mat-tab label="Datos del turno">
+      <div class="container rounded bg-white mt-5 mb-5">
+        <div class="row">
+
+          <div class="col-md-5 border-right">
+
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
+                width="150px"
+                src="https://img.freepik.com/foto-gratis/calendario-icono-3d-horario-fecha-lista-verificacion_107791-15691.jpg"><span
+                class="font-weight-bold">Turno agendado por:</span><span class="text-black-50">{{datosUsuario.nombre}} {{datosUsuario.apellido}}</span><span></span>
+            </div>
+
+          </div>
+
+          <div class="col-md-5 border-right">
+
+            <div class="p-3 py-5">
+
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-right">Información</h4>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-md-6"><label class="labels">Numero</label><input type="text" class="form-control" placeholder="{{turno.numero}}" disabled>
+                </div>
+                <div class="col-md-6"><label class="labels">Motivo </label><input type="text" class="form-control" placeholder="{{turno.motivo}}" disabled>
+                </div>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-md-6"><label class="labels">Población</label><input type="text" class="form-control" placeholder="{{turno.poblacion}}" disabled>
+                </div>
+                <div class="col-md-6"><label class="labels">Asistencia</label><input type="text" class="form-control" placeholder="{{turno.asistencia}}" disabled>
+                </div>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-md-6"><label class="labels">hora inicio</label><input type="text" class="form-control"
+                    placeholder="{{turno.tiempo.horaInicio | date: 'dd/MM/yyyy HH:mm' }}" disabled>
+                </div>
+                <div class="col-md-6"><label class="labels">hora finalizacion</label><input type="text" class="form-control"
+                    placeholder="{{turno.tiempo.horaFinalizacion | date: 'dd/MM/yyyy HH:mm' }}" disabled>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+
+                <div class="col-md-12"><label class="labels">Descripción de la solicitud</label><input class="form-control" placeholder="{{turno.descripcionOperacion}}" disabled></div>
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Datos del usuario">
+
+      <div class="container rounded bg-white mt-5 mb-5">
+        <div class="row">
+
+          <div class="col-md-5 border-right">
+
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
+                width="150px"
+                src="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"><span
+                class="font-weight-bold"></span><span class="text-black-50"></span><span></span>
+            </div>
+
+          </div>
+
+          <div class="col-md-5 border-right">
+
+            <div class="p-3 py-5">
+
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-right">Información</h4>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-md-6"><label class="labels">Identificación</label><input type="text" class="form-control" placeholder="{{datosUsuario.identificacion}}" disabled>
+                </div>
+                <div class="col-md-6"><label class="labels">Nombre Completo</label><input type="text" class="form-control"  placeholder="{{datosUsuario.nombre}}" disabled>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-md-12"><label class="labels">Apellidos</label><input class="form-control"  placeholder="{{datosUsuario.apellido}}" disabled></div>
+
+                <div class="col-md-12"><label class="labels">Teléfono</label><input type="text" class="form-control"  placeholder="{{datosUsuario.phoneNumber}}" disabled></div>
+
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+
+
+    </mat-tab>
+
+    <mat-tab label="registrar Atención">
+
+      <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmit()">
+
+        <mat-grid-list cols="1" rowHeight="6:1">
+
+            <mat-grid-tile>
+
+              <div>
+                <mat-form-field>
+
+                  <mat-label>Seleccione la Asistencia</mat-label>
+
+                  <mat-select formControlName="asistencia">
+
+                    <mat-option value="no Asistio">No asistio</mat-option>
+                    <mat-option value="Atendido">Atendido</mat-option>
+
+                  </mat-select>
+
+                  <mat-error *ngIf="this.firstFormGroup.controls['asistencia'].hasError('required')">
+                    Es necesario que seleccione la asistencia
+                  </mat-error>
+
+                </mat-form-field>
+              </div>
+
+              <div>
+                <mat-form-field style="margin-left: 20px;">
+
+                  <mat-label>Observación</mat-label>
+
+                  <input matInput formControlName="observacion">
+
+                  <mat-error *ngIf="this.firstFormGroup.controls['observacion'].hasError('required')">
+                    Es necesario digitar la observación
+                  </mat-error>
+                  <mat-error *ngIf="this.firstFormGroup.controls['observacion'].hasError('minlength')">
+                    <br>debe digitar un mínimo de 4 letras
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+
+              <div style="margin-left: 20px; margin-bottom: 15px;">
+
+                <button mat-raised-button color="primary" style="height: 50px;">Guardar</button>
+
+              </div>
+
+            </mat-grid-tile>
+
+
+          </mat-grid-list>
+
+        </form>
+
+    </mat-tab>
+
+
+  </mat-tab-group>
+
+
+</mat-card>
+</div>

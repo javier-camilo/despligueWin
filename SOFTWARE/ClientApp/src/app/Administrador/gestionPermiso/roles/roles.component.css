@@ -1,0 +1,17 @@
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+.labels {
+  font-size: 11px
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: #BA68C8
+}
