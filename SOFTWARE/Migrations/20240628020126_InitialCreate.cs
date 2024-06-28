@@ -54,22 +54,6 @@ namespace SOFTWARE.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Intervalo",
-                columns: table => new
-                {
-                    key = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Dia = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HoraInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HoraFinalizacion = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Disponibilidad = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Intervalo", x => x.key);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Motivo",
                 columns: table => new
                 {
@@ -102,33 +86,13 @@ namespace SOFTWARE.Migrations
                 columns: table => new
                 {
                     RefHorario = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    fechaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FechaFinalizacion = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    HoraInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HoraFinalizacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Disponibilidad = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tiempo", x => x.RefHorario);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Turno",
-                columns: table => new
-                {
-                    Numero = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Motivo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Asistencia = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DescripcionOperacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContratistaAtendio = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Observacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RefTiempo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FechaFinalizacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RefSolicitante = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Poblacion = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Turno", x => x.Numero);
                 });
 
             migrationBuilder.CreateTable(
@@ -237,6 +201,55 @@ namespace SOFTWARE.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Intervalo",
+                columns: table => new
+                {
+                    key = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Dia = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HoraInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HoraFinalizacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Disponibilidad = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TiempoRefHorario = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Intervalo", x => x.key);
+                    table.ForeignKey(
+                        name: "FK_Intervalo_Tiempo_TiempoRefHorario",
+                        column: x => x.TiempoRefHorario,
+                        principalTable: "Tiempo",
+                        principalColumn: "RefHorario");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Turno",
+                columns: table => new
+                {
+                    Numero = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Motivo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Asistencia = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DescripcionOperacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContratistaAtendio = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Observacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RefTiempo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaFinalizacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RefSolicitante = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Poblacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TiempoRefHorario = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Turno", x => x.Numero);
+                    table.ForeignKey(
+                        name: "FK_Turno_Tiempo_TiempoRefHorario",
+                        column: x => x.TiempoRefHorario,
+                        principalTable: "Tiempo",
+                        principalColumn: "RefHorario");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -275,6 +288,16 @@ namespace SOFTWARE.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Intervalo_TiempoRefHorario",
+                table: "Intervalo",
+                column: "TiempoRefHorario");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Turno_TiempoRefHorario",
+                table: "Turno",
+                column: "TiempoRefHorario");
         }
 
         /// <inheritdoc />
@@ -305,9 +328,6 @@ namespace SOFTWARE.Migrations
                 name: "Poblacion");
 
             migrationBuilder.DropTable(
-                name: "Tiempo");
-
-            migrationBuilder.DropTable(
                 name: "Turno");
 
             migrationBuilder.DropTable(
@@ -315,6 +335,9 @@ namespace SOFTWARE.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Tiempo");
         }
     }
 }
