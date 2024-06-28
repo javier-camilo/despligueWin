@@ -100,13 +100,15 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+  
+}
     app.UseHsts();
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
 app.UseCors(Options =>{
     Options.WithOrigins("https://localhost:44422");
+    Options.WithOrigins("http://192.168.20.87");
     Options.WithOrigins("https://citasweb.azurewebsites.net");
     Options.AllowAnyMethod();
     Options.AllowAnyHeader();
