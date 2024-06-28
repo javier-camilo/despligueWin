@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -21,9 +21,9 @@ export class PoblacionServiceService {
 
   baseUrl: string;
 
-  constructor(private http: HttpClient,
+  constructor(private http: HttpClient,@Inject('BASE_URL') baseUrl: string,
     private handleErrorService: HandleHttpErrorService) {
-      this.baseUrl='https://localhost:7240/';
+      this.baseUrl=baseUrl;
 
   }
 

@@ -21,9 +21,9 @@ export class TiempoService {
 
   baseUrl: string;
 
-  constructor(private http: HttpClient,
+  constructor(private http: HttpClient,@Inject('BASE_URL') baseUrl: string,
     private handleErrorService: HandleHttpErrorService) {
-      this.baseUrl='https://localhost:7240/';
+      this.baseUrl=baseUrl;
   }
 
   getTiempo(operacion:string): Observable<Tiempo[]> {
