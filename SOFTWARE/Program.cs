@@ -109,6 +109,7 @@ app.UseCors(Options =>{
     Options.WithOrigins("https://localhost:44422");
     Options.WithOrigins("http://192.168.20.90");
     Options.WithOrigins("https://citasweb.azurewebsites.net");
+    Options.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
     Options.AllowAnyMethod();
     Options.AllowAnyHeader();
 });
