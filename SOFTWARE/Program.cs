@@ -107,7 +107,7 @@ if (!app.Environment.IsProduction())
 
 app.UseCors(Options =>{
     Options.WithOrigins("https://localhost:44422");
-    Options.WithOrigins("http://192.168.20.87");
+    Options.WithOrigins("http://192.168.20.90");
     Options.WithOrigins("https://citasweb.azurewebsites.net");
     Options.AllowAnyMethod();
     Options.AllowAnyHeader();

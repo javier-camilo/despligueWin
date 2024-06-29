@@ -12,7 +12,7 @@ using SOFTWARE.Contexto;
 namespace SOFTWARE.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20240628020126_InitialCreate")]
+    [Migration("20240629043022_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
