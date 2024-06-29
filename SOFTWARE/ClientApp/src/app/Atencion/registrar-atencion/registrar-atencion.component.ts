@@ -8,6 +8,7 @@ import { Register, UserVista } from 'src/app/Modelo/register';
 import { DialogoConfirmacionComponent } from 'src/app/dialogo-confirmacion/dialogo-confirmacion.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HandleHttpErrorService } from 'src/app/@base/handle-http-error-service.service';
+import { Tiempo } from 'src/app/Modelo/tiempo';
 
 @Component({
   selector: 'app-registrar-atencion',
@@ -136,6 +137,7 @@ export class RegistrarAtencionComponent implements OnInit {
     this.turno.poblacion = "..";
     this.turno.refSolicitante = "..";
     this.turno.refTiempo = "..";
+    this.turno.tiempo=new Tiempo();
 
     this.errorUsuario();
 

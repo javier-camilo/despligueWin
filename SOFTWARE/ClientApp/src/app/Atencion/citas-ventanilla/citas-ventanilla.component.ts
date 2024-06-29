@@ -111,7 +111,7 @@ export class CitasVentanillaComponent implements OnInit {
     let dialogo = this.dialog.open(DialogoConfirmacionComponent, { data: { name: "Advertencia", descripcion: "¿esta seguro de realizar esta accion?" } });
 
     dialogo.afterClosed().subscribe(result => {
-      if (result) {
+      if (result == "true") {
         if (this.encontrado == false) {
           this.guardarTurnoUsuario();
         } else {

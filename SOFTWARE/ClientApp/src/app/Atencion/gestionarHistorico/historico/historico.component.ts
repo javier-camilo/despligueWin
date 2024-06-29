@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HandleHttpErrorService } from 'src/app/@base/handle-http-error-service.service';
 import { Register, UserVista } from 'src/app/Modelo/register';
+import { Tiempo } from 'src/app/Modelo/tiempo';
 import { Turno } from 'src/app/Modelo/turno';
 import { DialogoConfirmacionComponent } from 'src/app/dialogo-confirmacion/dialogo-confirmacion.component';
 import { LoginService } from 'src/app/servicios/login.service';
@@ -92,7 +93,7 @@ export class HistoricoComponent implements OnInit {
     this.turno.poblacion = "..";
     this.turno.refSolicitante = "..";
     this.turno.refTiempo = "..";
-    
+    this.turno.tiempo=new Tiempo();
     this.errorUsuario();
     this.errorUsuarioDos();
 

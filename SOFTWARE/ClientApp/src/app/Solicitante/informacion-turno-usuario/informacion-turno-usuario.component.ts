@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Register, UserVista } from 'src/app/Modelo/register';
+import { Tiempo } from 'src/app/Modelo/tiempo';
 import { Turno } from 'src/app/Modelo/turno';
 import { LoginService } from 'src/app/servicios/login.service';
 import { TurnoService } from 'src/app/servicios/turno.service';
@@ -56,7 +57,7 @@ export class InformacionTurnoUsuarioComponent implements OnInit {
     this.turno.poblacion = "..";
     this.turno.refSolicitante = "..";
     this.turno.refTiempo = "..";
-
+    this.turno.tiempo=new Tiempo();
   }
 
 
