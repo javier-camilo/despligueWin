@@ -270,7 +270,7 @@ namespace SOFTWARE.Controllers
         {
             if (tiempo == null)
             {
-                return BadRequest("El objeto Horario es nulo.");
+                return BadRequest("El objeto Tiempo es nulo.");
             }
 
             // Obtén los horarios para la fecha especificada
@@ -286,9 +286,11 @@ namespace SOFTWARE.Controllers
             // Elimina los turnos asociados
             foreach (var horario in horarios)
             {
-                var turnos = _context.Turno.Where(t => t.RefTiempo == horario.RefHorario);
+                var turnos = _context.Turno.Where(t => t.Tiempo.RefHorario == horario.RefHorario);
                 _context.Turno.RemoveRange(turnos);
             }
+            
+            await _context.SaveChangesAsync();
 
             // Elimina los horarios
             _context.Tiempo.RemoveRange(horarios);
