@@ -61,4 +61,13 @@ export class TiempoService {
         );
   }
 
+  delete(tiempo: Tiempo | string): Observable<void> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.delete<void>(`${this.baseUrl}api/tiempo/por-fecha`, { headers: headers, body: tiempo })
+      .pipe(
+        tap(_ => this.handleErrorService.log("Horario eliminado")),
+        catchError(this.handleErrorService.handleError<void>('Eliminar Horario'))
+      );
+  }
+  
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Tiempo } from 'src/app/Modelo/tiempo';
+import { DialogoConfirmacionComponent } from 'src/app/dialogo-confirmacion/dialogo-confirmacion.component';
 import { TiempoService } from 'src/app/servicios/tiempo.service';
 
 @Component({
@@ -16,7 +18,7 @@ export class ConsultarhorarioComponent implements OnInit {
   protected dataSource: any;
   protected displayedColumns: string[] = ['refHorario','horaInicio', 'horaFinalizacion', 'disponibilidad'];
 
-  constructor(private tiempoService:TiempoService) { }
+  constructor(private tiempoService:TiempoService,private dialog:MatDialog) { }
 
   ngOnInit(): void {
     this.cargarDatos();
@@ -55,6 +57,22 @@ export class ConsultarhorarioComponent implements OnInit {
     } else {
       this.dataSource.data = this.listadoHorario;
     }
+  }
+
+  borrarHorario(){
+    let ref = this.dialog.open(DialogoConfirmacionComponent, {data: {name:"Guardar", descripcion:"¿Desea eliminar los datos?"}});
+    let fecha:Tiempo;
+    fecha=new Tiempo();
+    ref.afterClosed().subscribe(result => {
+      if(result=="true"){
+        this.filteredHorarios.forEach(element => {
+          if(this.selectedDate==element.horaInicio){
+            fecha=element;
+          }
+        });
+        this.tiempoService.delete(fecha).subscribe();
+      }
+    })
   }
 
 
