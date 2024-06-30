@@ -25,6 +25,8 @@ export class ConsultarhorarioComponent implements OnInit {
   }
 
   cargarDatos() {
+    this.listadoHorario=[];
+    this.filteredHorarios=[];
     this.tiempoService.getTiempoAdministrador("").subscribe(_ =>
       {
       this.listadoHorario = _;
@@ -60,19 +62,29 @@ export class ConsultarhorarioComponent implements OnInit {
   }
 
   borrarHorario(){
-    let ref = this.dialog.open(DialogoConfirmacionComponent, {data: {name:"Guardar", descripcion:"¿Desea eliminar los datos?"}});
-    let fecha:Tiempo;
-    fecha=new Tiempo();
-    ref.afterClosed().subscribe(result => {
-      if(result=="true"){
-        this.filteredHorarios.forEach(element => {
-          if(this.selectedDate==element.horaInicio){
-            fecha=element;
-          }
-        });
-        this.tiempoService.delete(fecha).subscribe();
-      }
-    })
+
+    if (this.selectedDate){
+
+      let ref = this.dialog.open(DialogoConfirmacionComponent, {data: {name:"Eliminar", descripcion:"¿Desea eliminar los datos?"}});
+      let fecha:Tiempo;
+      fecha=new Tiempo();
+      const selectedDay = this.selectedDate.getDate();
+      ref.afterClosed().subscribe(result => {
+        if(result=="true"){
+          this.filteredHorarios.forEach(element => {
+            const horarioDate = new Date(element.horaInicio);
+            if(selectedDay===horarioDate.getDate()){
+              fecha=element;
+            }
+          });
+          this.tiempoService.delete(fecha).subscribe(_=>{
+            this.cargarDatos();
+          });
+        }
+      })
+
+    }
+
   }
 
 
