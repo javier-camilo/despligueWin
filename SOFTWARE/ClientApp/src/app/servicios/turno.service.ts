@@ -27,7 +27,7 @@ export class TurnoService {
 
   constructor(private http: HttpClient,@Inject('BASE_URL') baseUrl: string,
     private handleErrorService: HandleHttpErrorService) {
-      this.baseUrl=baseUrl;
+      this.baseUrl="https://localhost:7240/";
 
   }
 

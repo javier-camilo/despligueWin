@@ -189,7 +189,7 @@ namespace SOFTWARE.Controllers
                 {
                     if (fechaInicio.DayOfWeek != DayOfWeek.Sunday)
                     {
-                        DateTime horaActual = fechaInicio;
+                         DateTime horaActual = new DateTime(fechaInicio.Year, fechaInicio.Month, fechaInicio.Day, 8, 0, 0);
 
                         while (horaActual.TimeOfDay < horaFinLaboral && horarios.Count < numeroMaximoAtencion)
                         {
@@ -263,6 +263,40 @@ namespace SOFTWARE.Controllers
         {
             return (_context.Tiempo?.Any(e => e.RefHorario == id)).GetValueOrDefault();
         }
+
+
+        [HttpDelete("por-fecha")]
+        public async Task<IActionResult> DeleteHorariosPorFecha(Tiempo tiempo)
+        {
+            if (tiempo == null)
+            {
+                return BadRequest("El objeto Horario es nulo.");
+            }
+
+            // Obtén los horarios para la fecha especificada
+            var horarios = await _context.Tiempo
+                                        .Where(h => h.HoraInicio.Date == tiempo.HoraInicio.Date)
+                                        .ToListAsync();
+
+            if (!horarios.Any())
+            {
+                return NotFound();
+            }
+
+            // Elimina los turnos asociados
+            foreach (var horario in horarios)
+            {
+                var turnos = _context.Turno.Where(t => t.RefTiempo == horario.RefHorario);
+                _context.Turno.RemoveRange(turnos);
+            }
+
+            // Elimina los horarios
+            _context.Tiempo.RemoveRange(horarios);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
 
     }
 }
