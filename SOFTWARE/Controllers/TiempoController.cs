@@ -142,101 +142,91 @@ namespace SOFTWARE.Controllers
         [HttpPost]
         public async Task<ActionResult<IEnumerable<Tiempo>>> PostTiempo(HorarioInputModel inputModel)
         {
-            
-            DateTime nuevaFechaHora = new DateTime(inputModel.FechaInicio.Year, inputModel.FechaInicio.Month, inputModel.FechaInicio.Day, 8, 00, 0);
-            DateTime fechaInicio = nuevaFechaHora;
-            DateTime fechaFin = inputModel.FechaFin.AddDays(1);
-            TimeSpan intervaloAtencion = TimeSpan.FromMinutes(inputModel.IntervaloAtencion);
-            int numeroMaximoAtencion = inputModel.NumeroMaximoTurnos;
 
+                DateTime nuevaFechaHora = new DateTime(inputModel.FechaInicio.Year, inputModel.FechaInicio.Month, inputModel.FechaInicio.Day, 8, 00, 0);
+                DateTime fechaInicio = nuevaFechaHora;
+                DateTime fechaFin = inputModel.FechaFin;
+                TimeSpan intervaloAtencion = TimeSpan.FromMinutes(inputModel.IntervaloAtencion);
+                int numeroMaximoAtencion = inputModel.NumeroMaximoTurnos;
 
-            // Define el horario laboral (de 8:00 AM a 6:00 PM)
-            TimeSpan horaInicioLaboral = new TimeSpan(8, 0, 0); // 8:00 AM
-            TimeSpan horaFinLaboral = new TimeSpan(18, 0, 0); // 6:00 PM
+                // Define el horario laboral (de 8:00 AM a 6:00 PM)
+                TimeSpan horaInicioLaboral = new TimeSpan(8, 0, 0); // 8:00 AM
+                TimeSpan horaFinLaboral = new TimeSpan(18, 0, 0); // 6:00 PM
 
-            // Define el período de descanso (por ejemplo, de 12:00 PM a 2:00 PM)
-            TimeSpan horaInicioDescanso = new TimeSpan(12, 0, 0); // 12:00 PM
-            TimeSpan horaFinDescanso = new TimeSpan(14, 0, 0); // 2:00 PM
+                // Define el período de descanso (por ejemplo, de 12:00 PM a 2:00 PM)
+                TimeSpan horaInicioDescanso = new TimeSpan(12, 0, 0); // 12:00 PM
+                TimeSpan horaFinDescanso = new TimeSpan(14, 0, 0); // 2:00 PM
 
-            var horarios = new List<Tiempo>();
+                var horarios = new List<Tiempo>();
 
-            if (_context.Tiempo == null)
-            {
-                return BadRequest(error("base de datos tiempo", "no existe una base de datos registrada"));
-            }
-
-            if (inputModel.FechaFin < inputModel.FechaInicio)
-            {
-                return BadRequest(error("base de datos tiempo", "la fecha de fin no puede ser menor que la fecha de inicio"));
-            }
-
-            // Verificar si existen horarios registrados para las fechas especificadas
-            bool horariosRegistrados = await _context.Tiempo.AnyAsync(h =>
-                (h.HoraInicio.Date >= inputModel.FechaInicio.Date && h.HoraInicio.Date <= inputModel.FechaFin.Date) ||
-                (h.HoraFinalizacion.Date >= inputModel.FechaInicio.Date && h.HoraFinalizacion.Date <= inputModel.FechaFin.Date));
-
-            // Si existen horarios registrados, mostrar una advertencia
-            if (horariosRegistrados)
-            {
-                return BadRequest(error("base de datos tiempo", "ya existe un horario registrado para esas fechas"));
-            }
-
-
-            while (fechaInicio.Date <= fechaFin.Date)
-            {
-                Console.WriteLine($"entro");
-                //excluir domingos
-                if (fechaInicio.DayOfWeek != DayOfWeek.Sunday)
+                if (inputModel.FechaInicio.DayOfWeek == DayOfWeek.Sunday)
                 {
-
-                    for (int i = 0; i < numeroMaximoAtencion; i++)
-                    {
-
-                        var horaInicio = fechaInicio.Add(intervaloAtencion * i);
-                        var horaFin = horaInicio.Add(intervaloAtencion);
-
-                        if (horaInicio.TimeOfDay < horaFinDescanso && horaFin.TimeOfDay > horaInicioDescanso)
-                        {
-                            if (horaInicio.TimeOfDay < horaInicioDescanso)
-                            {
-                                horaInicio = new DateTime(horaInicio.Year, horaInicio.Month, horaInicio.Day, horaFinDescanso.Hours, horaFinDescanso.Minutes, horaFinDescanso.Seconds);
-                            }
-                            if (horaFin.TimeOfDay > horaFinDescanso)
-                            {
-                                horaFin = horaInicio.Add(intervaloAtencion);
-                            }
-                        }
-
-                        if (horaInicio.TimeOfDay < horaInicioLaboral || horaFin.TimeOfDay > horaFinLaboral)
-                        {
-                            continue;
-                        }
-
-                        if (horaFin <= fechaFin && horaInicio.TimeOfDay >= horaInicioLaboral && horaFin.TimeOfDay <= horaFinLaboral)
-                        {
-                            Console.WriteLine($"entro al registro");
-                            var horario = new Tiempo
-                            {
-                                HoraInicio = horaInicio,
-                                HoraFinalizacion = horaFin,
-                                Disponibilidad = true,
-                            };
-
-                            horarios.Add(horario);
-                        }
-
-
-                    }
-
+                    return BadRequest(error("base de datos tiempo", "no se puede registrar horarios los domingos"));
                 }
 
-                fechaInicio = fechaInicio.AddDays(1);
-            }
+                if (_context.Tiempo == null)
+                {
+                    return BadRequest(error("base de datos tiempo", "no existe una base de datos registrada"));
+                }
 
-            _context.Tiempo.AddRange(horarios);
-            await _context.SaveChangesAsync();
+                if (inputModel.FechaFin < inputModel.FechaInicio)
+                {
+                    return BadRequest(error("base de datos tiempo", "la fecha de fin no puede ser menor que la fecha de inicio"));
+                }
 
-            return horarios;
+                // Verificar si existen horarios registrados para las fechas especificadas
+                bool horariosRegistrados = await _context.Tiempo.AnyAsync(h =>
+                    (h.HoraInicio.Date >= inputModel.FechaInicio.Date && h.HoraInicio.Date <= inputModel.FechaFin.Date) ||
+                    (h.HoraFinalizacion.Date >= inputModel.FechaInicio.Date && h.HoraFinalizacion.Date <= inputModel.FechaFin.Date));
+
+                // Si existen horarios registrados, mostrar una advertencia
+                if (horariosRegistrados)
+                {
+                    return BadRequest(error("base de datos tiempo", "ya existe un horario registrado para esas fechas"));
+                }
+
+                while (fechaInicio.Date <= fechaFin.Date)
+                {
+                    if (fechaInicio.DayOfWeek != DayOfWeek.Sunday)
+                    {
+                        DateTime horaActual = fechaInicio;
+
+                        while (horaActual.TimeOfDay < horaFinLaboral && horarios.Count < numeroMaximoAtencion)
+                        {
+                            var horaFin = horaActual.Add(intervaloAtencion);
+
+                            // Si el intervalo actual cae dentro del periodo de descanso, se salta al final del descanso
+                            if ((horaActual.TimeOfDay >= horaInicioDescanso && horaActual.TimeOfDay < horaFinDescanso) ||
+                                (horaFin.TimeOfDay > horaInicioDescanso && horaFin.TimeOfDay <= horaFinDescanso))
+                            {
+                                horaActual = new DateTime(horaActual.Year, horaActual.Month, horaActual.Day, horaFinDescanso.Hours, horaFinDescanso.Minutes, horaFinDescanso.Seconds);
+                                continue;
+                            }
+
+                            if (horaActual.TimeOfDay >= horaInicioLaboral && horaFin.TimeOfDay <= horaFinLaboral)
+                            {
+                                var horario = new Tiempo
+                                {
+                                    HoraInicio = horaActual,
+                                    HoraFinalizacion = horaFin,
+                                    Disponibilidad = true,
+                                };
+
+                                horarios.Add(horario);
+                            }
+
+                            horaActual = horaFin;
+                        }
+                    }
+
+                    fechaInicio = fechaInicio.AddDays(1);
+                }
+
+                _context.Tiempo.AddRange(horarios);
+                await _context.SaveChangesAsync();
+
+                return Ok(horarios);
+           
         }
 
 
