@@ -187,11 +187,13 @@ namespace SOFTWARE.Controllers
 
                 while (fechaInicio.Date <= fechaFin.Date)
                 {
+
                     if (fechaInicio.DayOfWeek != DayOfWeek.Sunday)
                     {
-                         DateTime horaActual = new DateTime(fechaInicio.Year, fechaInicio.Month, fechaInicio.Day, 8, 0, 0);
+                        DateTime horaActual = new DateTime(fechaInicio.Year, fechaInicio.Month, fechaInicio.Day, 8, 0, 0);
+                        int turnosGenerados = 0;
 
-                        while (horaActual.TimeOfDay < horaFinLaboral && horarios.Count < numeroMaximoAtencion)
+                        while (horaActual.TimeOfDay < horaFinLaboral && turnosGenerados < numeroMaximoAtencion)
                         {
                             var horaFin = horaActual.Add(intervaloAtencion);
 
@@ -213,10 +215,12 @@ namespace SOFTWARE.Controllers
                                 };
 
                                 horarios.Add(horario);
+                                turnosGenerados++;
                             }
 
                             horaActual = horaFin;
                         }
+                    
                     }
 
                     fechaInicio = fechaInicio.AddDays(1);
