@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { LegendPosition } from '@swimlane/ngx-charts';
 import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
+import jsPDF from 'jspdf';
 import { ReporteTurno } from 'src/app/Modelo/reporte';
 import { TurnoService } from 'src/app/servicios/turno.service';
+import domtoimage from 'dom-to-image';
+
 
 
 @Component({
@@ -75,6 +78,45 @@ export class GenrarreporteComponent implements OnInit {
     );
 
   }
+    
+  generatePDF() {
+    const data = document.getElementById('reportContent');
+    if (data) {
+      domtoimage.toPng(data)
+        .then((dataUrl) => {
+          const imgWidth = 208;
+          const pageHeight = 295;
+          const img = new Image();
+          img.src = dataUrl;
+          img.onload = () => {
+            const imgHeight = img.height * imgWidth / img.width;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+             // Añadir título
+             pdf.setFontSize(22);
+             pdf.setFont('helvetica', 'bold');
+             pdf.setTextColor(36, 52, 71); // color RGB
+             pdf.text('Reporte de Datos', 15, 15);
+
+             // Añadir descripción
+             pdf.setFontSize(12);
+             pdf.setFont('times', 'normal');
+             pdf.setTextColor(100);
+             pdf.text('Este reporte muestra una visión general de los datos recolectados.', 15, 25);
+
+             // Añadir imagen
+             const position = 30; // Ajusta la posición de la imagen según sea necesario
+             pdf.addImage(img, 'PNG', 0, position, imgWidth, imgHeight);
+             
+             // Guardar el PDF
+             pdf.save('reporte.pdf');
+          };
+        })
+        .catch((error) => {
+          console.error('Error capturing the chart:', error);
+        });
+    }
+  }
 
 }
+
 
